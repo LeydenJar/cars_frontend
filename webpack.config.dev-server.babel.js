@@ -12,7 +12,7 @@ import webpackConfig, { JS_SOURCE } from './webpack.config.common'
 // https://github.com/motdotla/dotenv
 require('dotenv').config({ silent: true })
 
-const HOST = process.env.HOST || config.get('host') || '0.0.0.0'
+const HOST = process.env.HOST || config.get('host') || 'localhost'
 const PORT = process.env.PORT || config.get('port') || '8080'
 const APP_ENTRY_POINT = `${JS_SOURCE}/main`
 

@@ -1,31 +1,33 @@
 import { api } from "./api";
 
 //Login function
-export function getCars(){
-    api.post('/cars/', {
-        username: username,
-        password: pass
+export async function getCars(token){
+    const initialResponse = await api.get('/cars/', {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+
     })
-    .then(function (response) {
-            return response.data.data;
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+
+    const response = initialResponse.data.data;
+    
+
+    return response
 }
 
 //Register function
-export function getCar(id){
-    api.post('/cars/' + id, {
-        username: username,
-        password: pass
+export async function getCar(id, token){
+    const initialResponse = await api.get('/cars/' + id, {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+
     })
-    .then(function (response) {
-        return response.data.data
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+
+    const response = initialResponse.data.data;
+    
+
+    return response
 }
 
 export default {getCars, getCar}

@@ -6,6 +6,7 @@ import authService from "../../services/authService";
 
 
 class SignUpView extends Component{
+    
     constructor(props){
         super(props);
         this.state = {
@@ -22,10 +23,8 @@ class SignUpView extends Component{
 
     handleSubmit = async (event) => {
         event.preventDefault();
-
         const registerResult = await authService.register(this.state.username, this.state.password);
         history.push("/login");
-            
     }
 
     render(){

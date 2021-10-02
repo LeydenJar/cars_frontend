@@ -6,6 +6,9 @@ import LazyLoading from "../../common/components/LazyLoading"
 import { actions as authActions } from "../../redux/modules/auth"
 import { tokenSelector } from "../../redux/selectors/tokenSelector"
 import authService, { login } from "../../services/authService"
+import { history } from "../../app-history"
+
+
 
 class LoginView extends Component {
 
@@ -22,6 +25,7 @@ class LoginView extends Component {
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 }
+
   handleFormChange(event) {
     this.setState({
       ...this.state,
@@ -31,14 +35,10 @@ class LoginView extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault()
-    console.log("submiting form")
     //call api
     var loginResult = await authService.login(this.state.username, this.state.password);
-
-    console.log("!Login result ");
-    console.log(await(loginResult))
     //get token from response
-    const token = await (loginResult).token;
+    const token = loginResult.token;
 
     //Send setToken action to redux
     const {setToken} = this.props;
@@ -46,6 +46,9 @@ class LoginView extends Component {
   }
 
   render() {
+    if (this.props.token.token){
+      history.push('/list');
+    }
     return (
       <Fragment>
         <div style={{ left: "50%" }}>
@@ -70,7 +73,7 @@ class LoginView extends Component {
 }
 
 const mapStateToProps = state => ({
-  token: tokenSelector(state),
+   token: tokenSelector(state)
 })
 
 const mapDispatchToProps = {
