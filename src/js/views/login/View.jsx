@@ -2,13 +2,14 @@ import React, { Component, Fragment, Link } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
 
-import LazyLoading from "../../common/components/LazyLoading"
+
 import { actions as authActions } from "../../redux/modules/auth"
-import { tokenSelector } from "../../redux/selectors/tokenSelector"
-import authService, { login } from "../../services/authService"
+
+import authService from "../../services/authService"
 import { history } from "../../app-history"
-
-
+import { Header } from "../../common/components/Header"
+import globalStyles from "../../../style/index.css"
+import styles from "./styles.css"
 
 class LoginView extends Component {
 
@@ -37,6 +38,7 @@ class LoginView extends Component {
     event.preventDefault()
     //call api
     var loginResult = await authService.login(this.state.username, this.state.password);
+    
     //get token from response
     const token = loginResult.token;
 
@@ -45,27 +47,31 @@ class LoginView extends Component {
     setToken(token);
   }
 
-  render() {
+  componentDidUpdate(){
     if (this.props.token.token){
-      history.push('/list');
+      history.push('/');
     }
+  }
+
+  handleSignUpClick = async (event) => {
+    event.preventDefault();
+    history.push('/signUp');
+  }
+
+  render() {
     return (
       <Fragment>
-        <div style={{ left: "50%" }}>
-          <h2>Login Screen</h2>
-          <form onSubmit={this.handleSubmit}>
-          <label>
-                        Username:
-                        <input type="text" name="username" value={this.state.username} onChange={this.handleFormChange}/>
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password" name="password" value={this.state.password} onChange={this.handleFormChange}/>
-                    </label>
-            <button action="submit">Entrar</button>
-          </form>
-
-          {/* <Link to="/signup">Signup</Link> */}
+      <Header />
+        <div className={styles.centered}>
+          <div className={styles.form}>
+            <h2>Login</h2>
+            <form onSubmit={this.handleSubmit} className={styles.form}>
+                <input type="text" name="username" value={this.state.username} onChange={this.handleFormChange} className={styles.formInput} placeholder={"username"}/>
+                <input type="password" name="password" value={this.state.password} onChange={this.handleFormChange} className={styles.formInput} placeholder={"password"}/>
+              <button action="submit" className={globalStyles.button}>Entrar</button>
+            </form>
+              <a href={"signUp"} onClick={this.handleSignUpClick} style={{color: 'black', margin: "15px"}}>Signup</a>
+          </div>
         </div>
       </Fragment>
     )
@@ -73,7 +79,8 @@ class LoginView extends Component {
 }
 
 const mapStateToProps = state => ({
-   token: tokenSelector(state)
+  
+  token: {token: state.auth.token}
 })
 
 const mapDispatchToProps = {

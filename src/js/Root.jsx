@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
+import { PersistGate } from 'redux-persist/integration/react'
 
-import I18NProvider from 'common/components/Utilities/I18NProvider'
+
 
 export default class Root extends React.PureComponent {
   get content() {
@@ -13,12 +14,16 @@ export default class Root extends React.PureComponent {
   }
 
   render() {
-    const { store } = this.props
+    const { store, persistor} = this.props
 
     return (
-      <I18NProvider>
-        <Provider store={store}>{this.content}</Provider>
-      </I18NProvider>
+      
+        <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          {this.content}
+          </PersistGate>
+        </Provider>
+      
     )
   }
 }

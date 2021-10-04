@@ -26,10 +26,8 @@ export const actions = {
 }
 
 export const reducers = {
-  [SET_TOKEN]: (state, { payload }) => state.merge({
-    ...payload,
-  }),
-  [LOGOUT]: (state, { payload }) => state.token = null,
+  [SET_TOKEN]: (state, { payload }) => {return {...state, token: payload.token}},
+  [LOGOUT]: (state, { payload }) => {return {...state, token: null}},
 }
 
 export const initialState = () => Map({

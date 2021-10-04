@@ -1,8 +1,19 @@
-import createSagaMiddleware from 'redux-saga'
-import { applyMiddleware, compose, createStore } from 'redux'
 
-import sagas from './sagas'
+import { applyMiddleware, compose, createStore } from 'redux'
 import rootReducer from './rootReducers'
+
+
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+
+
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 
 // Redux DevTools Extension for Chrome and Firefox
 const reduxDevTool = () => {
@@ -14,18 +25,12 @@ const reduxDevTool = () => {
 
 // history is passed here, for this example, we don't use history
 export default function configureStore(initialState, history) { // eslint-disable-line no-unused-vars, max-len
-  const sagaMiddleware = createSagaMiddleware()
-
-  const middleware = applyMiddleware(sagaMiddleware)
-
+  
   const composedStoreEnhancer = compose(
-    middleware,
     reduxDevTool()
   )
 
-  const store = composedStoreEnhancer(createStore)(rootReducer, initialState)
-
-  sagaMiddleware.run(sagas)
+  const store = composedStoreEnhancer(createStore)(persistedReducer, initialState)
 
   if (module.hot) {
     module.hot.accept('./rootReducers', () => {
@@ -33,5 +38,8 @@ export default function configureStore(initialState, history) { // eslint-disabl
     })
   }
 
-  return store
+
+  const persistor = persistStore(store);
+  return {store, persistor}
+  
 }

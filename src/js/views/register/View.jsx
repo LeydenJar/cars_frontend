@@ -1,9 +1,10 @@
 
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { history } from "../../app-history";
 import authService from "../../services/authService";
-
-
+import styles from "./styles.css";
+import globalStyles from "../../../style/index.css"
+import { Header } from "../../common/components/Header";
 
 class SignUpView extends Component{
     
@@ -29,19 +30,20 @@ class SignUpView extends Component{
 
     render(){
         return(
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Username:
-                        <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/>
-                    </label>
-                    <input type="submit" value="Submit"/>
-                </form>
-            </div>
+
+            <Fragment>
+            <Header />
+                    <div className={styles.centered}>
+                        <div className={styles.form}>
+                            <h2>SignUp</h2>
+                            <form onSubmit={this.handleSubmit} className={styles.form}>
+                                    <input type="text" name="username" value={this.state.username} onChange={this.handleChange} className={styles.formInput}/>
+                                    <input type="password" name="password" value={this.state.password} onChange={this.handleChange} className={styles.formInput}/>
+                                    <button action="submit" className={globalStyles.button}>Sign Up</button>
+                            </form>
+                        </div>
+                    </div>
+            </Fragment>
         )
     }
 }

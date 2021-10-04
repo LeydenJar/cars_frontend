@@ -1,33 +1,49 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
 
 import styles from './Header.css';
+import { connect } from "react-redux"
+import { actions as authActions} from '../../../redux/modules/auth';
+import { history } from '../../../app-history';
+
+import { tokenSelector } from "../../../redux/selectors/tokenSelector";
+import {FaChevronLeft} from "react-icons/fa";
 
 class Header extends PureComponent {
+  handleLogout = async (event) => {
+    event.preventDefault()
+    this.props.logout();
+    history.push("/login");
+  }
+
+  goBack = async (event) => {
+    history.goBack()
+  }
+
   render() {
-    const { location } = this.props;
-    const { pathname } = location;
-
-    const isHome = pathname === '/';
-    const isJustAnotherPage = pathname === '/page';
-
     return (
       <header className={styles.globalHeader}>
-        <ul>
-          <li className={!isHome ? styles.active : ''}>
-            {isHome ? 'Home' : <Link to="/">Home</Link>}
-          </li>
-          <li className={!isJustAnotherPage ? styles.active : ''}>
-            {isJustAnotherPage ? (
-              'Just Another Page'
-            ) : (
-              <Link to="/page">Just Another Page</Link>
-            )}
-          </li>
-        </ul>
+        <h2 className={styles.centerHeaderText}>Cars App</h2>
+        {
+          this.props.backButton && (
+            <FaChevronLeft size={"1.5em"} className={styles.chevron} onClick={this.goBack}/>
+          )
+        }
+
+        {this.props.token.token && (
+          <button className={styles.logout} onClick={this.handleLogout}>Logout</button>
+        )
+        }
       </header>
     );
   }
 }
 
-export default Header;
+const mapStateToProps = state => ({
+  token: tokenSelector(state)
+})
+
+const mapDispatchToProps = {
+  ...authActions,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -4,7 +4,7 @@ const tokenDataSelector = (state) => state.auth
 
 const resultSelector = createSelector(
     tokenDataSelector,
-  (payload) => payload.get('token')
+  (payload) => payload.token
 )
 
 export const tokenSelector = (state) => ({

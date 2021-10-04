@@ -20,11 +20,11 @@ if (window.__INITIAL_STATE__) {
   })
 }
 
-const store = configureStore(initialState, history)
+const {store, persistor} = configureStore(initialState, history)
 
 // Render the React application to the DOM
 // Root component is to bootstrap Provider, Router and DevTools
 ReactDOM.render(
-  <Root history={history} routes={routes} store={store} />,
+  <Root history={history} routes={routes} store={store} persistor={persistor} />,
   document.getElementById('app-container')
 )

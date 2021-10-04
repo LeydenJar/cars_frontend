@@ -1,19 +1,20 @@
 import carService from "../../services/carService";
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux"
 import { tokenSelector } from "../../redux/selectors/tokenSelector"
 import { history } from "../../app-history"
+import { Header } from "../../common/components/Header";
+import styles from "./list.css";
+
 
 class ListCars extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            // cars: [{model: "vectra", year: 2002}, {model: "Audi A4", year: 2008}]
             cars: []
         }
     }
-
 
     async componentDidMount() {
         if(!this.props.token.token){
@@ -30,14 +31,17 @@ class ListCars extends Component {
 
     render() {
         return (
+            <Fragment>
+                <Header />
             <div>
-                <h1>List of cars</h1>
-                <ul>
+                <h1 style={{marginLeft: "15px"}}>List of cars</h1>
+                <div className= {styles.list}>
                     {this.state.cars.map((car) => {
-                        return <li><div onClick={() => history.push("detail/" + car.id)}>{car.model}</div></li>
+                        return <div key={car.id} className={styles.listItem} onClick={() => history.push("detail/" + car.id)}><p className={styles.listItemTitle}>{car.model}</p></div>
                     })}
-                </ul>
+                </div>
             </div>
+            </Fragment>
         )
     }
 }

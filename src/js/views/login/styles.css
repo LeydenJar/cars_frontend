@@ -1,0 +1,21 @@
+.centered {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 300px;
+}
+
+.formInput {
+    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.288);
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+}

@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import carService from "../../services/carService";
 import { connect } from "react-redux"
 import { tokenSelector } from "../../redux/selectors/tokenSelector"
 import { history } from "../../app-history"
+import { Header } from "../../common/components/Header";
 
 //This view shows details of a car
 class CarDetail extends Component {
@@ -35,10 +36,13 @@ class CarDetail extends Component {
         }
 
         return (
-            <div>
-                <h1>Car Detail</h1>
-                <p>This is the car detail for car with id {this.state.car.id}</p>
-            </div>
+            <Fragment>
+                <Header backButton={true}/>
+                <div>
+                    <h1>Car Detail</h1>
+                    <p>This is the car detail for car with id {this.state.car.id}</p>
+                </div>
+            </Fragment>
         );
     }
 }
