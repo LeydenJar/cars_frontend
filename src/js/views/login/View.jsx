@@ -40,7 +40,7 @@ class LoginView extends Component {
     var loginResult = await authService.login(this.state.username, this.state.password);
     
     if(!loginResult){
-      alert("User doesn't exist!");
+      alert("Invalid Credentials!");
     }
     //get token from response
     const token = loginResult.token;
