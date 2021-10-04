@@ -8,9 +8,7 @@ export async function getCars(token){
         }
 
     })
-
     const response = initialResponse.data.data;
-    
 
     return response
 }

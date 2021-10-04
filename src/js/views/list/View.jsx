@@ -5,7 +5,8 @@ import { tokenSelector } from "../../redux/selectors/tokenSelector"
 import { history } from "../../app-history"
 import { Header } from "../../common/components/Header";
 import styles from "./list.css";
-
+import { actions as authActions} from '../../redux/modules/auth';
+import { logout } from "../../redux/modules/auth";
 
 class ListCars extends Component {
 
@@ -22,6 +23,10 @@ class ListCars extends Component {
         }
 
         const cars = await carService.getCars(this.props.token.token);
+        if(!cars){
+            this.props.logout();
+            history.push("login");
+        }
 
         this.setState({
             ...this.state,
@@ -50,4 +55,8 @@ const mapStateToProps = state => ({
     token: tokenSelector(state)
 })
 
-export default connect(mapStateToProps)(ListCars);
+const mapDispatchToProps = {
+    ...authActions,
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListCars);

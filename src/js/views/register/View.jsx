@@ -14,6 +14,7 @@ class SignUpView extends Component{
             username: "",
             password: ""
         }
+        this.handleLoginClick = this.handleLoginClick.bind(this);
     }
 
     handleChange = (event) => {
@@ -28,19 +29,25 @@ class SignUpView extends Component{
         history.push("/login");
     }
 
+
+    handleLoginClick = async (event) => {
+        event.preventDefault();
+        history.push('/login');
+      }
+
     render(){
         return(
-
             <Fragment>
             <Header />
                     <div className={styles.centered}>
                         <div className={styles.form}>
                             <h2>SignUp</h2>
                             <form onSubmit={this.handleSubmit} className={styles.form}>
-                                    <input type="text" name="username" value={this.state.username} onChange={this.handleChange} className={styles.formInput}/>
-                                    <input type="password" name="password" value={this.state.password} onChange={this.handleChange} className={styles.formInput}/>
-                                    <button action="submit" className={globalStyles.button}>Sign Up</button>
+                                <input type="text" name="username" value={this.state.username} onChange={this.handleChange} className={styles.formInput}/>
+                                <input type="password" name="password" value={this.state.password} onChange={this.handleChange} className={styles.formInput}/>
+                                <button action="submit" className={globalStyles.button}>Sign Up</button>
                             </form>
+                            <a href={"login"} onClick={this.handleLoginClick} style={{color: 'black', margin: "15px"}}>Login</a>
                         </div>
                     </div>
             </Fragment>
